@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package apierror;
+option go_package = "github.com/ramseyjiang/go-micros/shared/apierror/v2;apierror";
+
+import "google/protobuf/struct.proto";
+
+enum ErrorType {
+  UNKNOWN = 0; // is for unknown errors
+  ERROR   = 1; // is for standard errors
+  WARNING = 2; // is for warnings
+  INFO    = 3; // is for informational logging
+  DEBUG   = 4; // is for debug logging
+}
+
+// APIErrorProto is the wire format used for sending APIErrors remotely
+message APIErrorProto {
+  // App is the application name where this error was generated
+  string App = 1;
+
+  // ErrorCode is the equivalent HTTP error code for this error
+  int32  ErrorCode = 2;
+  // ErrorNumber is an application-specific unique error number (for use with i18n and error lookups)
+  int32  ErrorNumber = 3;
+  // ErrorField is the field name (if applicable of the field that is relating to the error)
+  string ErrorField = 4;
+  // ErrorMessage is the human readable error message
+  string ErrorMessage = 5;
+  // OriginErrorMessage is the origin error's native error message
+  string OriginErrorMessage = 6;
+
+  // Message is deprecated
+  string Message = 7 [ deprecated=true ];
+
+  // SourceFile is the file name (and line number if available) of where this error was generated
+  string SourceFile = 8;
+  // SourceFunc is the function name where this error was generated
+  string SourceFunc = 9;
+
+  // Stack contains the stack trace information
+  APIErrorProto Stack = 10;
+  ErrorType ErrorType = 11;
+
+  repeated TraceFrame TraceFrames = 12;
+  // TraceData TraceData = 13;
+}
+
+// message TraceData {
+//     string TraceFunc = 1;
+//     string TraceFile = 2;
+//     string TracePackage = 3;
+//     string TraceLine = 4;
+//     uint64 TracePC = 5;
+//     repeated uint64 OriginPCs = 6;
+// }
+
+message TraceFrame {
+  string Function = 1; // function
+  string Symbol = 2; // symbol
+  string Module = 3; // module
+  string Package = 4; // package
+  string Filename = 5; // filename
+  string AbsPath = 6; // abs_path
+  int32 Lineno = 7; // lineno
+  int32 Colno = 8; // colno
+  repeated string PreContext = 9; // pre_context
+  string ContextLine = 10; // context_line
+  repeated string PostContext = 11; // post_context
+  bool InApp = 12; // in_app
+  google.protobuf.Struct Vars = 13; // vars
+}
