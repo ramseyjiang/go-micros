@@ -1,4 +1,4 @@
-module ramsey.com/m/v2
+module ramsey.com/shared/srvlogs/v2
 
 go 1.21.4
 
