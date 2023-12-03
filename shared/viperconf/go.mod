@@ -8,7 +8,7 @@ require (
 	github.com/fsnotify/fsnotify v1.7.0
 	github.com/ramseyjiang/go-micros/shared/apierror v0.0.0-20231203074451-da0fa90cda57
 	github.com/ramseyjiang/go-micros/shared/srvlogs/v2 v2.0.0-20231203081740-2b45fb4001f1
-	github.com/ramseyjiang/go-micros/shared/strhelpers/v2 v2.0.0-20231203082115-46f34e47a150
+	github.com/ramseyjiang/go-micros/shared/helpers/v2 v2.0.0-20231203082115-46f34e47a150
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.17.0
 	google.golang.org/genproto v0.0.0-20231127180814-3a041ad873d4

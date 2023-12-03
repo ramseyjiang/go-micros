@@ -11,8 +11,8 @@ import (
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/ramseyjiang/go-micros/shared/apierror"
+	"github.com/ramseyjiang/go-micros/shared/helpers/v2"
 	"github.com/ramseyjiang/go-micros/shared/srvlogs/v2"
-	"github.com/ramseyjiang/go-micros/shared/strhelpers/v2"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 )
@@ -63,7 +63,7 @@ func ShowConfig() {
 
 	for _, cfgVarName := range keys {
 		if fmt.Sprintf("%v", viper.Get(cfgVarName)) != "" {
-			if strhelpers.StringInSliceCaseInsensitive(cfgVarName, ProtectedConfigItems) {
+			if helpers.StringInSliceCaseInsensitive(cfgVarName, ProtectedConfigItems) {
 				srvlogs.GlobalLogger.Debugf("  %s: ***OMITTED (protected custom key)***", cfgVarName)
 				continue
 			}

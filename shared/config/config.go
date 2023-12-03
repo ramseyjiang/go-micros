@@ -44,5 +44,5 @@ func Setup(applicationName string, version string, buildStamp string, initViperP
 		viperconf.ShowConfig()
 	}
 
-	// strhelpers.TimeZoneInit()
+	// helpers.TimeZoneInit()
 }

@@ -29,7 +29,7 @@ require (
 	github.com/pelletier/go-toml/v2 v2.1.0 // indirect
 	github.com/ramseyjiang/go-micros/shared/apierror v0.0.0-20231203074451-da0fa90cda57 // indirect
 	github.com/ramseyjiang/go-micros/shared/srvlogs/v2 v2.0.0-20231203081740-2b45fb4001f1 // indirect
-	github.com/ramseyjiang/go-micros/shared/strhelpers/v2 v2.0.0-20231203082115-46f34e47a150 // indirect
+	github.com/ramseyjiang/go-micros/shared/helpers/v2 v2.0.0-20231203082115-46f34e47a150 // indirect
 	github.com/sagikazarmark/locafero v0.3.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect

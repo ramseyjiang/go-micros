@@ -183,8 +183,8 @@ github.com/ramseyjiang/go-micros/shared/apierror v0.0.0-20231203074451-da0fa90cd
 github.com/ramseyjiang/go-micros/shared/apierror v0.0.0-20231203074451-da0fa90cda57/go.mod h1:N7Q7Vt4NmcxuRMTRQ00CpInSRuLElHH126rtWzvS+qI=
 github.com/ramseyjiang/go-micros/shared/srvlogs/v2 v2.0.0-20231203081740-2b45fb4001f1 h1:np/REewKZocRyBF1F0ruyAxlFMJ2ZFK18JbgjYp9qI8=
 github.com/ramseyjiang/go-micros/shared/srvlogs/v2 v2.0.0-20231203081740-2b45fb4001f1/go.mod h1:R+cCtd5v01+4Q9RmONC2o2dub+7qmkIK9Hh0WJCrDgw=
-github.com/ramseyjiang/go-micros/shared/strhelpers/v2 v2.0.0-20231203082115-46f34e47a150 h1:I1GyYIBmceW+VMXlYWuoQ7HOAybVozdaj0wsEOluLyo=
-github.com/ramseyjiang/go-micros/shared/strhelpers/v2 v2.0.0-20231203082115-46f34e47a150/go.mod h1:Vb9OzLo2RGmy5RTUMJ1X1fH79gTkqljMtafg6JrpdeU=
+github.com/ramseyjiang/go-micros/shared/helpers/v2 v2.0.0-20231203082115-46f34e47a150 h1:I1GyYIBmceW+VMXlYWuoQ7HOAybVozdaj0wsEOluLyo=
+github.com/ramseyjiang/go-micros/shared/helpers/v2 v2.0.0-20231203082115-46f34e47a150/go.mod h1:Vb9OzLo2RGmy5RTUMJ1X1fH79gTkqljMtafg6JrpdeU=
 github.com/ramseyjiang/go-micros/shared/viperconf/v2 v2.0.0-20231203082808-e9b50e90bac9 h1:bifqDTRTnUOgybIWztj6YobvQ8lp3/ZK6jxd+clRVZs=
 github.com/ramseyjiang/go-micros/shared/viperconf/v2 v2.0.0-20231203082808-e9b50e90bac9/go.mod h1:FG6ZT9VBcxoFY8K56xlRK2hlZRgW1Ci5hIzE/ZXv1LU=
 github.com/rogpeppe/go-internal v1.3.0/go.mod h1:M8bDsm7K2OlrFYOpmOWEs/qY81heoFRclV5y23lUDJ4=
