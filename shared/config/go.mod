@@ -1,4 +1,4 @@
-module micros
+module github.com/ramseyjiang/go-micros/shared/config
 
 go 1.21.4
 
