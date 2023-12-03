@@ -2,6 +2,10 @@
 package config
 
 import (
+	"os"
+
+	"github.com/ramseyjiang/go-micros/shared/apierror"
+	"github.com/ramseyjiang/go-micros/shared/srvlogs/v2"
 	"github.com/ramseyjiang/go-micros/shared/viperconf/v2"
 	"github.com/spf13/viper"
 )
@@ -22,4 +26,23 @@ func (v Value[T]) Get() T {
 func New[T any](name string, defaultsTo T, description string) Value[T] {
 	viperconf.New(name, defaultsTo, description)
 	return Value[T]{name}
+}
+
+func Setup(applicationName string, version string, buildStamp string, initViperPFlags viperconf.ViperSetParamsFunc, runWhenConfigChanges viperconf.ViperSetParamsFunc) {
+	if configErr := viperconf.SetupViperV2(nil, applicationName, initViperPFlags, runWhenConfigChanges); configErr != nil {
+		srvlogs.Errorf("Configuration ERROR: %v", configErr)
+		os.Exit(1)
+	}
+
+	srvlogs.Init(applicationName, viper.GetString("syslog-host"), viper.GetBool("debug"))
+	apierror.ApplicationName = applicationName + "/" + version
+	apierror.DebugMode = viper.GetBool("debug")
+
+	srvlogs.Infof("%s - Version: %s, Build: %s", applicationName, version, buildStamp)
+
+	if viper.GetBool("debug") {
+		viperconf.ShowConfig()
+	}
+
+	// strhelpers.TimeZoneInit()
 }
