@@ -1,4 +1,4 @@
-module github.com/ramseyjiang/go-micros/shared/strhelpers
+module github.com/ramseyjiang/go-micros/shared/strhelpers/v2
 
 go 1.21.4
 
