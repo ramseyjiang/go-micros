@@ -2,6 +2,8 @@ package apierror
 
 import (
 	"context"
+
+	"github.com/ramseyjiang/go-micros/shared/srvlog"
 )
 
 const (
@@ -43,23 +45,23 @@ func (h APILoggerHandler) HandleLogMessageWithContext(ctx context.Context, ae *A
 type DefaultAPILoggerHandler struct{}
 
 func (obj *DefaultAPILoggerHandler) HandleLogMessageWithContext(ctx context.Context, ae *APIError) {
-	if obj == nil || ae == nil || srvlogs.GlobalLogger == nil {
+	if obj == nil || ae == nil || srvlog.GlobalLogger == nil {
 		return
 	}
 	fields := ae.GetMapStringInterface()
 	switch ae.ErrorType {
 	case ErrorType_WARNING:
-		srvlogs.GlobalLogger.WithFields(fields).Warn(ae.Message)
+		srvlog.GlobalLogger.WithFields(fields).Warn(ae.Message)
 
 	case ErrorType_INFO:
-		srvlogs.GlobalLogger.WithFields(fields).Info(ae.Message)
+		srvlog.GlobalLogger.WithFields(fields).Info(ae.Message)
 
 	case ErrorType_DEBUG:
-		srvlogs.GlobalLogger.WithFields(fields).Debug(ae.Message)
+		srvlog.GlobalLogger.WithFields(fields).Debug(ae.Message)
 
 	default:
 		// same as ErrorType_ERROR, ErrorType_UNKNOWN:
-		srvlogs.GlobalLogger.WithFields(fields).Error(ae.Message)
+		srvlog.GlobalLogger.WithFields(fields).Error(ae.Message)
 
 	}
 }
