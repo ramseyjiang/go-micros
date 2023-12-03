@@ -1,4 +1,4 @@
-module github.com/ramseyjiang/go-micros/shared/apierror
+module github.com/ramseyjiang/go-micros/shared/apierror/v2
 
 go 1.21.4
 
