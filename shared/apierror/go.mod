@@ -1,9 +1,9 @@
-module github.com/ramseyjiang/go-micros/shared/apierror/v2
+module github.com/ramseyjiang/go-micros/shared/apierror
 
 go 1.21.4
 
 require (
-	github.com/ramseyjiang/go-micros/shared/srvlogs/v2 v2.0.0-20231203032604-18e2663b39d2
+	github.com/ramseyjiang/go-micros/shared/srvlogs v2.0.0-20231203032604-18e2663b39d2
 	google.golang.org/grpc v1.59.0
 	google.golang.org/protobuf v1.31.0
 )

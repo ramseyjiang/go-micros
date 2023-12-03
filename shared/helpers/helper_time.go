@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/ramseyjiang/go-micros/shared/apierror"
-	"github.com/ramseyjiang/go-micros/shared/srvlogs/v2"
+	"github.com/ramseyjiang/go-micros/shared/srvlogs"
 )
 
 var (

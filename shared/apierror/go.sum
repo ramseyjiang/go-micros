@@ -13,8 +13,8 @@ github.com/konsorten/go-windows-terminal-sequences v1.0.3 h1:CE8S1cTafDpPvMhIxNJ
 github.com/konsorten/go-windows-terminal-sequences v1.0.3/go.mod h1:T0+1ngSBFLxvqU3pZ+m/2kptfBszLMUkC4ZK/EgS/cQ=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
-github.com/ramseyjiang/go-micros/shared/srvlogs/v2 v2.0.0-20231203032604-18e2663b39d2 h1:0tenY6Y1aZ3BF6unV01IHH1ZyJNdatEVjgLrWkrfSm8=
-github.com/ramseyjiang/go-micros/shared/srvlogs/v2 v2.0.0-20231203032604-18e2663b39d2/go.mod h1:R+cCtd5v01+4Q9RmONC2o2dub+7qmkIK9Hh0WJCrDgw=
+github.com/ramseyjiang/go-micros/shared/srvlogs v2.0.0-20231203032604-18e2663b39d2 h1:0tenY6Y1aZ3BF6unV01IHH1ZyJNdatEVjgLrWkrfSm8=
+github.com/ramseyjiang/go-micros/shared/srvlogs v2.0.0-20231203032604-18e2663b39d2/go.mod h1:R+cCtd5v01+4Q9RmONC2o2dub+7qmkIK9Hh0WJCrDgw=
 github.com/sirupsen/logrus v1.9.3 h1:dueUQJ1C2q9oE3F7wvmSGAaVtTmUizReu6fjN8uqzbQ=
 github.com/sirupsen/logrus v1.9.3/go.mod h1:naHLuLoDiP4jHNo9R0sCBMtWGeIprob74mVsIT4qYEQ=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=

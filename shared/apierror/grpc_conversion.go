@@ -6,7 +6,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/ramseyjiang/go-micros/shared/srvlogs/v2"
+	"github.com/ramseyjiang/go-micros/shared/srvlogs"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"

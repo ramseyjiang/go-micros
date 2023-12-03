@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package apierror;
-option go_package = "github.com/ramseyjiang/go-micros/shared/apierror/v2;apierror";
+option go_package = "github.com/ramseyjiang/go-micros/shared/apierror;apierror";
 
 import "google/protobuf/struct.proto";
 

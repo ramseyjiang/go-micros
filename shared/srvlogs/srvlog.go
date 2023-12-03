@@ -1,6 +1,6 @@
 package srvlogs
 
-import "github.com/ramseyjiang/go-micros/shared/srvlogs/v2/logruswrapper"
+import "github.com/ramseyjiang/go-micros/shared/srvlogs/logruswrapper"
 
 // GlobalLogger is used by the Global Logging functions
 var GlobalLogger = NewGlobalSRVLogger()

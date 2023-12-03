@@ -3,7 +3,7 @@ package apierror
 import (
 	"context"
 
-	"github.com/ramseyjiang/go-micros/shared/srvlogs/v2"
+	"github.com/ramseyjiang/go-micros/shared/srvlogs"
 )
 
 const (

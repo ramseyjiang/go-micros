@@ -4,9 +4,9 @@ go 1.21.4
 
 require (
 	github.com/ramseyjiang/go-micros/shared/apierror v0.0.0-20231203074451-da0fa90cda57
-	github.com/ramseyjiang/go-micros/shared/srvlogs/v2 v2.0.0-20231203081740-2b45fb4001f1
-	github.com/ramseyjiang/go-micros/shared/helpers/v2 v2.0.0-20231203082115-46f34e47a150
-	github.com/ramseyjiang/go-micros/shared/viperconf/v2 v2.0.0-20231203082808-e9b50e90bac9
+	github.com/ramseyjiang/go-micros/shared/srvlogs v2.0.0-20231203081740-2b45fb4001f1
+	github.com/ramseyjiang/go-micros/shared/helpers v2.0.0-20231203082115-46f34e47a150
+	github.com/ramseyjiang/go-micros/shared/viperconf v2.0.0-20231203082808-e9b50e90bac9
 	github.com/spf13/viper v1.17.0
 )
 

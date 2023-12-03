@@ -1,10 +1,10 @@
-module github.com/ramseyjiang/go-micros/shared/helpers/v2
+module github.com/ramseyjiang/go-micros/shared/helpers
 
 go 1.21.4
 
 require (
 	github.com/ramseyjiang/go-micros/shared/apierror v0.0.0-20231203074451-da0fa90cda57
-	github.com/ramseyjiang/go-micros/shared/srvlogs/v2 v2.0.0-20231203032604-18e2663b39d2
+	github.com/ramseyjiang/go-micros/shared/srvlogs v2.0.0-20231203032604-18e2663b39d2
 )
 
 require (

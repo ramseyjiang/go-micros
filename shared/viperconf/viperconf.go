@@ -11,8 +11,8 @@ import (
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/ramseyjiang/go-micros/shared/apierror"
-	"github.com/ramseyjiang/go-micros/shared/helpers/v2"
-	"github.com/ramseyjiang/go-micros/shared/srvlogs/v2"
+	"github.com/ramseyjiang/go-micros/shared/helpers"
+	"github.com/ramseyjiang/go-micros/shared/srvlogs"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 )

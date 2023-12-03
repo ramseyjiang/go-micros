@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 
 	"github.com/ramseyjiang/go-micros/shared/apierror"
-	"github.com/ramseyjiang/go-micros/shared/srvlogs/v2"
+	"github.com/ramseyjiang/go-micros/shared/srvlogs"
 	"github.com/spf13/viper"
 
 	secretmanager "cloud.google.com/go/secretmanager/apiv1"
