@@ -100,7 +100,7 @@ func (ae *APIError) ApplyForeignError(err error, errcode int, errfield string) e
 				ae.originErr = nil
 				ae.OriginErrorMessage = ""
 				ae.ImportChildFields(&stackObj)
-				// srvlogs.Debugf("ApplyForeignError: apiErrorInspect")
+				// srvlog.Debugf("ApplyForeignError: apiErrorInspect")
 				return ae
 			} else {
 				log.Printf("apierror.ApplyForeignError JSON ERROR: %v", jsonErr)
@@ -149,7 +149,6 @@ func (ae *APIError) ApplyForeignError(err error, errcode int, errfield string) e
 			err = echo4Err.Unwrap() // promote the underlying internal error (it might be a json or validation error)
 			ae.originErr = echo4Err.Unwrap()
 			if ae.originErr != nil {
-				// srvlogs.Debugf("ApplyForeignError: echoV4HTTPError")
 				ae.OriginErrorMessage = ae.originErr.Error()
 			}
 		}
@@ -161,7 +160,6 @@ func (ae *APIError) ApplyForeignError(err error, errcode int, errfield string) e
 		// ae.OriginErrorMessage = jsonErr.Error()
 		ae.ErrorField = jsonErr.Field
 		ae.ErrorMessage = fmt.Sprintf("Invalid type (%s) for (%s), should be (%s)", jsonErr.Value, jsonErr.Field, jsonErr.Type.String())
-		// srvlogs.Debugf("ApplyForeignError: json.UnmarshalTypeError")
 		return ae
 	}
 
