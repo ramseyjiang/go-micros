@@ -4,10 +4,10 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/ramseyjiang/go-micros/shared/apierror"
-	"github.com/spf13/viper"
-
 	secretmanager "cloud.google.com/go/secretmanager/apiv1"
+	"github.com/ramseyjiang/go-micros/shared/apierror"
+	"github.com/ramseyjiang/go-micros/shared/srvlog"
+	"github.com/spf13/viper"
 	secretmanagerpb "google.golang.org/genproto/googleapis/cloud/secretmanager/v1"
 )
 

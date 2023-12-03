@@ -12,6 +12,7 @@ import (
 	"github.com/fsnotify/fsnotify"
 	"github.com/ramseyjiang/go-micros/shared/apierror"
 	"github.com/ramseyjiang/go-micros/shared/helpers"
+	"github.com/ramseyjiang/go-micros/shared/srvlog"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 )
