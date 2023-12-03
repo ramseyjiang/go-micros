@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 
 	"github.com/ramseyjiang/go-micros/shared/apierror"
-	"github.com/ramseyjiang/go-micros/shared/srvlogs"
 	"github.com/spf13/viper"
 
 	secretmanager "cloud.google.com/go/secretmanager/apiv1"
@@ -34,7 +33,7 @@ func GetGCPSecret(varname string, name string) (string, error) {
 	// Call the API.
 	result, accessErr := gcpSecretManagerClient.AccessSecretVersion(context.Background(), req)
 	if accessErr != nil {
-		srvlogs.Errorf("gcpSecretManagerClient.AccessSecretVersion (%s) ERROR: %v", varname, accessErr)
+		srvlog.Errorf("gcpSecretManagerClient.AccessSecretVersion (%s) ERROR: %v", varname, accessErr)
 		return name, apierror.NewAPIError(accessErr, 500, "", "Error reading GCP secret for %s", varname)
 	}
 

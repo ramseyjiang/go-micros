@@ -1,4 +1,4 @@
-package srvlogs
+package srvlog
 
 import (
 	"context"

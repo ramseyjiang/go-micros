@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/ramseyjiang/go-micros/shared/apierror"
-	"github.com/ramseyjiang/go-micros/shared/srvlogs"
 )
 
 var (
@@ -31,7 +30,7 @@ func TimeZoneInit() error {
 	GlobalLocalTimeZone, tzerr = time.LoadLocation(DefaultLocalTimeZoneStr)
 	if tzerr != nil {
 		if DateDebug {
-			srvlogs.Errorf("ERROR: Unable to load timezone (%s): %v", GlobalLocalTimeZone, tzerr)
+			srvlog.Errorf("ERROR: Unable to load timezone (%s): %v", GlobalLocalTimeZone, tzerr)
 		}
 		return tzerr
 	}
@@ -75,7 +74,7 @@ func decodeDateTimeString(timeString string, OverrideTimezone *time.Location, al
 	timeString = strings.TrimSpace(timeString)
 	if timeString == "" {
 		if DateDebug {
-			srvlogs.Debugf("DecodeDateTimeString: Empty date/time string")
+			srvlog.Debugf("DecodeDateTimeString: Empty date/time string")
 		}
 		return time.Time{}, "", fmt.Errorf("Empty date/time string")
 	}
@@ -99,7 +98,7 @@ func decodeDateTimeString(timeString string, OverrideTimezone *time.Location, al
 		t, err := time.Parse(TimeFormats[i].Format, timeString)
 		if err == nil && (allow1970 || t.Year() > 1971) {
 			if DateDebug {
-				srvlogs.Debugf("DecodeDateTimeString(%s): %s==%s\n", TimeFormats[i].Name, timeString, t.Format(time.RFC3339Nano))
+				srvlog.Debugf("DecodeDateTimeString(%s): %s==%s\n", TimeFormats[i].Name, timeString, t.Format(time.RFC3339Nano))
 			}
 			return t, TimeFormats[i].Format, nil
 		}

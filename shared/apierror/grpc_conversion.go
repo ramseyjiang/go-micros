@@ -6,7 +6,6 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/ramseyjiang/go-micros/shared/srvlogs"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -322,13 +321,13 @@ func GetOriginGRPCError(err error) *APIError {
 				if decodeErr == nil {
 					return ae
 				}
-				srvlogs.Errorf("GetOriginGRPCError FromPackedDataBase64 ERROR: %v", decodeErr)
+				srvlog.Errorf("GetOriginGRPCError FromPackedDataBase64 ERROR: %v", decodeErr)
 			}
 			// deprecated - remove
 			if t.Domain == "apierror" && t.Metadata != nil && t.Metadata["e"] != "" {
 				ae := FromBase64String(t.Metadata["e"])
 				if ae != nil {
-					srvlogs.Errorf("GetOriginGRPCError FromBase64String ERROR: nil")
+					srvlog.Errorf("GetOriginGRPCError FromBase64String ERROR: nil")
 					return ae
 				}
 			}
@@ -339,13 +338,13 @@ func GetOriginGRPCError(err error) *APIError {
 	for _, detail := range st.Details() {
 		switch t := detail.(type) {
 		case *errdetails.DebugInfo:
-			srvlogs.Debugf("Decoding APIError from DebugInfo")
+			srvlog.Debugf("Decoding APIError from DebugInfo")
 
 			ae := APIError{}
 			if jsonErr := json.Unmarshal([]byte(t.Detail), &ae); jsonErr == nil {
 				return &ae
 			} else {
-				srvlogs.Errorf("GetOriginGRPCError json.Unmarshal: %v", jsonErr)
+				srvlog.Errorf("GetOriginGRPCError json.Unmarshal: %v", jsonErr)
 			}
 
 			// return nil
@@ -398,16 +397,16 @@ func GRPCSendContext(ctx context.Context) {
 		if md, ok := metadata.FromOutgoingContext(ctx); ok {
 			sendErr := grpc.SendHeader(ctx, md)
 			if sendErr != nil {
-				srvlogs.Warnf("GRPCSendContext grpc.SendHeader(md): %v", sendErr)
+				srvlog.Warnf("GRPCSendContext grpc.SendHeader(md): %v", sendErr)
 			}
 		} else {
 			sendErr := grpc.SendHeader(ctx, nil)
 			if sendErr != nil {
-				srvlogs.Warnf("GRPCSendContext grpc.SendHeader(nil): %v", sendErr)
+				srvlog.Warnf("GRPCSendContext grpc.SendHeader(nil): %v", sendErr)
 			}
 		}
 	} else {
-		srvlogs.Warnf("GRPCSendContext: no context")
+		srvlog.Warnf("GRPCSendContext: no context")
 	}
 }
 
@@ -423,19 +422,19 @@ func UnaryServerInt() grpc.UnaryServerInterceptor {
 			var internal *APIError
 			switch {
 			case errors.As(err, &internal):
-				srvlogs.Warn("APIError: ", internal.GetJSONString())
+				srvlog.Warn("APIError: ", internal.GetJSONString())
 				GRPCSendContext(ctx)
 				return nil, internal
 			default:
 				if grpcErr := GetOriginGRPCError(err); grpcErr != nil {
-					srvlogs.Warn("DEFAULT APIError: ", grpcErr.GetJSONString())
+					srvlog.Warn("DEFAULT APIError: ", grpcErr.GetJSONString())
 					// this is already a GRPC error
 					GRPCSendContext(ctx)
 					return nil, grpcErr
 				}
 
 				wrappedErr := convertWrappedToAPIError(err)
-				srvlogs.Warn("untraceable apierror returned by ", info.FullMethod)
+				srvlog.Warn("untraceable apierror returned by ", info.FullMethod)
 				GRPCSendContext(ctx)
 				return nil, NewAPIError(wrappedErr, 0, "", "")
 			}
@@ -459,7 +458,7 @@ func StreamServerInt() grpc.StreamServerInterceptor {
 			var internal *APIError
 			switch {
 			case errors.As(err, &internal):
-				srvlogs.Warn("apierror")
+				srvlog.Warn("apierror")
 				GRPCSendContext(ss.Context())
 				return internal
 			default:
@@ -470,7 +469,7 @@ func StreamServerInt() grpc.StreamServerInterceptor {
 				}
 
 				wrappedErr := convertWrappedToAPIError(err)
-				srvlogs.Warn("untraceable apierror returned by ", info.FullMethod)
+				srvlog.Warn("untraceable apierror returned by ", info.FullMethod)
 				GRPCSendContext(ss.Context())
 				return NewAPIErrorWithContext(ss.Context(), wrappedErr, 500, "", "").GRPCError()
 			}

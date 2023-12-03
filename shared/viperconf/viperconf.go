@@ -12,7 +12,6 @@ import (
 	"github.com/fsnotify/fsnotify"
 	"github.com/ramseyjiang/go-micros/shared/apierror"
 	"github.com/ramseyjiang/go-micros/shared/helpers"
-	"github.com/ramseyjiang/go-micros/shared/srvlogs"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 )
@@ -55,7 +54,7 @@ var defaultProtectedSubstrings = []string{"password", "passwd", "apikey", "api-k
 var ProtectedConfigItems []string
 
 func ShowConfig() {
-	srvlogs.GlobalLogger.Debug("Running with flags:")
+	srvlog.GlobalLogger.Debug("Running with flags:")
 
 	keys := viper.AllKeys()
 
@@ -64,7 +63,7 @@ func ShowConfig() {
 	for _, cfgVarName := range keys {
 		if fmt.Sprintf("%v", viper.Get(cfgVarName)) != "" {
 			if helpers.StringInSliceCaseInsensitive(cfgVarName, ProtectedConfigItems) {
-				srvlogs.GlobalLogger.Debugf("  %s: ***OMITTED (protected custom key)***", cfgVarName)
+				srvlog.GlobalLogger.Debugf("  %s: ***OMITTED (protected custom key)***", cfgVarName)
 				continue
 			}
 
@@ -72,14 +71,14 @@ func ShowConfig() {
 			for _, thisStr := range defaultProtectedConfigItems {
 				if strings.HasSuffix(strings.ToLower(cfgVarName), thisStr) {
 					foundStr = true
-					srvlogs.GlobalLogger.Debugf("  %s: ***OMITTED (protected key)***", cfgVarName)
+					srvlog.GlobalLogger.Debugf("  %s: ***OMITTED (protected key)***", cfgVarName)
 					break
 				}
 			}
 			for _, thisStr := range defaultProtectedSubstrings {
 				if strings.Contains(strings.ToLower(cfgVarName), thisStr) {
 					foundStr = true
-					srvlogs.GlobalLogger.Debugf("  %s: ***OMITTED (protected sub-string)***", cfgVarName)
+					srvlog.GlobalLogger.Debugf("  %s: ***OMITTED (protected sub-string)***", cfgVarName)
 					break
 				}
 			}
@@ -87,7 +86,7 @@ func ShowConfig() {
 				continue
 			}
 		}
-		srvlogs.GlobalLogger.Debugf("  %s: %v", cfgVarName, viper.Get(cfgVarName))
+		srvlog.GlobalLogger.Debugf("  %s: %v", cfgVarName, viper.Get(cfgVarName))
 	}
 }
 
@@ -99,7 +98,7 @@ func SetupViperV2(logger LogInterface, applicationName string, setParamFunction 
 	var confErr error
 
 	if logger == nil {
-		logger = srvlogs.GlobalLogger
+		logger = srvlog.GlobalLogger
 	}
 
 	if logger == nil {
@@ -118,11 +117,11 @@ func SetupViperV2(logger LogInterface, applicationName string, setParamFunction 
 			os.Exit(1)
 			// return remoteCfgErr
 		}
-		srvlogs.Infof("Successfully loaded REMOTE_RPC_CONFIG: %s", remoteRPCConfig)
+		srvlog.Infof("Successfully loaded REMOTE_RPC_CONFIG: %s", remoteRPCConfig)
 		// Temporary - REMOVE THIS IN FUTURE !!!!
 		ConfigLoaded = true
 	} else {
-		srvlogs.Debugf("WARNING: Falling back to legacy rpcConfig mode")
+		srvlog.Debugf("WARNING: Falling back to legacy rpcConfig mode")
 		// Temporary - REMOVE THIS IN FUTURE !!!!
 		InitConfig()
 	}
@@ -144,7 +143,7 @@ func SetupViperV2(logger LogInterface, applicationName string, setParamFunction 
 			log.Printf("Remote Config ERROR: %v", remoteCfgErr)
 			os.Exit(1)
 		}
-		srvlogs.Infof("Successfully loaded REMOTE_CONFIG: %s", remoteConfig)
+		srvlog.Infof("Successfully loaded REMOTE_CONFIG: %s", remoteConfig)
 	} else {
 		ex, _ := os.Executable()
 		viper.AddConfigPath(filepath.Dir(ex))
@@ -153,13 +152,13 @@ func SetupViperV2(logger LogInterface, applicationName string, setParamFunction 
 		confErr = viper.ReadInConfig()
 		if confErr != nil {
 			if _, castOK := confErr.(viper.ConfigFileNotFoundError); !castOK {
-				srvlogs.Infof("ERROR Reading config: %v", confErr)
+				srvlog.Infof("ERROR Reading config: %v", confErr)
 				if os.Getenv("CONFIG_OPTIONAL") == "" {
 					return ErrLocalConfig
 				}
 			}
 		} else {
-			srvlogs.Debug("Successfully loaded config from file")
+			srvlog.Debug("Successfully loaded config from file")
 		}
 	}
 
@@ -240,29 +239,29 @@ func SetupViperV2(logger LogInterface, applicationName string, setParamFunction 
 	pflag.Parse()
 
 	viper.OnConfigChange(func(e fsnotify.Event) {
-		srvlogs.Infof("Config file changed: %s", e.Name)
+		srvlog.Infof("Config file changed: %s", e.Name)
 		if runWhenConfigChanges != nil {
 			runWhenConfigChanges()
 		}
 	})
 
 	if viper.GetString("config") != "" {
-		srvlogs.Infof("Loading config from: %s", viper.GetString("config"))
+		srvlog.Infof("Loading config from: %s", viper.GetString("config"))
 		viper.SetConfigFile(viper.GetString("config"))
 		confErr := viper.ReadInConfig()
 		if confErr != nil {
-			srvlogs.Infof("Config load error: %v", confErr)
+			srvlog.Infof("Config load error: %v", confErr)
 			return ErrLocalConfig
 		}
 		viper.WatchConfig()
 	} else {
 		if confErr != nil {
-			srvlogs.Debug("WARNING: No config file to read! - Not auto reloading config file changes")
+			srvlog.Debug("WARNING: No config file to read! - Not auto reloading config file changes")
 		} else {
 			viper.WatchConfig()
 		}
 		if viper.ConfigFileUsed() != "" {
-			srvlogs.Infof("Loaded default config from: %s", viper.ConfigFileUsed())
+			srvlog.Infof("Loaded default config from: %s", viper.ConfigFileUsed())
 		}
 	}
 
@@ -340,7 +339,7 @@ func setProxyFlags(viperCfg *viper.Viper) {
 	if httpProxy != "" {
 		err := os.Setenv("HTTP_PROXY", httpProxy)
 		if err != nil {
-			srvlogs.Info("HTTP_PROXY is set. The default HTTP client will be proxying requests via ", httpProxy)
+			srvlog.Info("HTTP_PROXY is set. The default HTTP client will be proxying requests via ", httpProxy)
 		}
 	}
 	httpsProxy := viperCfg.GetString("HTTPS_PROXY")
@@ -350,7 +349,7 @@ func setProxyFlags(viperCfg *viper.Viper) {
 	if httpsProxy != "" {
 		err := os.Setenv("HTTPS_PROXY", httpsProxy)
 		if err != nil {
-			srvlogs.Info("HTTPS_PROXY is set. The default HTTP client will be proxying https requests via ", httpsProxy)
+			srvlog.Info("HTTPS_PROXY is set. The default HTTP client will be proxying https requests via ", httpsProxy)
 		}
 	}
 	noProxy := viperCfg.GetString("NO_PROXY")
@@ -360,7 +359,7 @@ func setProxyFlags(viperCfg *viper.Viper) {
 	if noProxy != "" {
 		err := os.Setenv("NO_PROXY", noProxy)
 		if err != nil {
-			srvlogs.Info("NO_PROXY is set. The default HTTP client will ignore the following endpoints when proxying ", httpsProxy)
+			srvlog.Info("NO_PROXY is set. The default HTTP client will ignore the following endpoints when proxying ", httpsProxy)
 		}
 	}
 }
