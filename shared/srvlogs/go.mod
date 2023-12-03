@@ -1,4 +1,4 @@
-module github.com/ramseyjiang/micros/shared/srvlogs/v2
+module github.com/ramseyjiang/go-micros/shared/srvlogs/v2
 
 go 1.21.4
 
