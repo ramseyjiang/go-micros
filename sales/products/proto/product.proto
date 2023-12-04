@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package products;
+option go_package = "github.com/ramseyjiang/go-micros/sales/products;products";
+
+// The product service definition.
+service ProductService {
+  // Gets a list of products
+  rpc GetProducts (GetProductsRequest) returns (GetProductsResponse) {}
+
+  // Creates a new product
+  rpc CreateProduct (CreateProductRequest) returns (Product) {}
+}
+
+// The request message containing the user's name.
+message GetProductsRequest {}
+
+// The response message containing the products.
+message GetProductsResponse {
+  repeated Product products = 1;
+}
+
+// The request message for creating a product.
+message CreateProductRequest {
+  string name = 1;
+  string price = 2;
+}
+
+// The product representation.
+message Product {
+  string id = 1;
+  string name = 2;
+  string price = 3;
+}
