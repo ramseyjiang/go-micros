@@ -9,12 +9,12 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/go-redis/redis/v8"
 	pb "github.com/ramseyjiang/go-micros/sales/products/proto"
 	"github.com/ramseyjiang/go-micros/sales/products/repos"
 	"github.com/ramseyjiang/go-micros/sales/products/services"
-
-	"github.com/go-redis/redis/v8"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 func main() {
@@ -52,6 +52,10 @@ func main() {
 
 	// Register ProductServiceServer
 	pb.RegisterProductServiceServer(grpcServer, productSvc)
+
+	// Register reflection service on gRPC server.
+	// It is also used for grpcurl sending in the terminal.
+	reflection.Register(grpcServer)
 
 	// Graceful shutdown handling
 	go func() {
