@@ -7,6 +7,8 @@ import (
 )
 
 type ProductService struct {
+	//  the UnimplementedProductServiceServer satisfies the gRPC interface, including the forward compatibility method.
+	pb.UnimplementedProductServiceServer
 	repo repos.ProductRepositoryInterface
 }
 

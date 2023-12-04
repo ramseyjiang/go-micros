@@ -9,14 +9,14 @@ import (
 	pb "github.com/ramseyjiang/go-micros/sales/products/proto"
 )
 
-// ProductRepository handles the interaction with Redis for product data.
-type ProductRepository struct {
-	redisClient *redis.Client
-}
-
 type ProductRepositoryInterface interface {
 	GetProducts(ctx context.Context) ([]*pb.Product, error)
 	CreateProduct(ctx context.Context, product *pb.Product) error
+}
+
+// ProductRepository handles the interaction with Redis for product data.
+type ProductRepository struct {
+	redisClient *redis.Client
 }
 
 // NewProductRepository creates a new instance of ProductRepository.
@@ -30,7 +30,6 @@ func NewProductRepository(redisClient *redis.Client) *ProductRepository {
 func (r *ProductRepository) GetProducts(ctx context.Context) ([]*pb.Product, error) {
 	var products []*pb.Product
 
-	// Assuming you're storing each product in a hash with a key pattern like "product:{ID}"
 	iter := r.redisClient.Scan(ctx, 0, "product:*", 0).Iterator()
 	for iter.Next(ctx) {
 		key := iter.Val()
@@ -56,7 +55,6 @@ func (r *ProductRepository) GetProducts(ctx context.Context) ([]*pb.Product, err
 
 // CreateProduct stores a new product in Redis.
 func (r *ProductRepository) CreateProduct(ctx context.Context, product *pb.Product) error {
-	// Generate a new unique ID for the product, for example by using INCR command
 	nextID, err := r.redisClient.Incr(ctx, "product:next_id").Result()
 	if err != nil {
 		return fmt.Errorf("error generating new ID for product: %v", err)
