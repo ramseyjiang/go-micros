@@ -6,6 +6,8 @@ import (
 
 	"github.com/ramseyjiang/go-micros/sales/trade/internal/repos"
 	tradepb "github.com/ramseyjiang/go-micros/sales/trade/proto"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/wrapperspb"
 )
 
@@ -29,7 +31,7 @@ func (s *SalesService) CreateSale(ctx context.Context, req *tradepb.CreateSaleRe
 			return nil, fmt.Errorf("error checking product existence: %v", err)
 		}
 		if !exists {
-			return nil, fmt.Errorf("product with ID %s does not exist", item.ProductId)
+			return nil, status.Errorf(codes.NotFound, "product with ID %s does not exist", item.ProductId)
 		}
 
 		// Calculate total price for the line item
