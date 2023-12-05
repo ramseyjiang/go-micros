@@ -19,7 +19,7 @@ import (
 
 const (
 	productServicePort = "localhost:9011"
-	redisAddress       = "localhost:6379"
+	redisAddress       = "localhost:26379" // localhost:6379, docker use 26379
 )
 
 func main() {

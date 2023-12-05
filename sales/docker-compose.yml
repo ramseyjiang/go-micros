@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  products:
+    build:
+      context: ./products  # Path to the directory containing the Dockerfile for products
+    ports:
+      - "9011:9011"  # Adjust the ports as needed for your products service
+    depends_on:
+      - redis
+
+  trade:
+    build:
+      context: ./trade  # Path to the directory containing the Dockerfile for trade
+    ports:
+      - "9012:9012"  # Adjust the ports as needed for your trade service
+    depends_on:
+      - redis
+
+  redis:
+    image: redis
+    ports:
+      - "26379:26379"
+
+  grpcgateway:
+    build:
+      context: ./grpcgateway  # Path to the directory containing the Dockerfile for the gateway
+    ports:
+      - "8080:8080"  # Adjust the ports as needed for your gRPC Gateway
+    depends_on:
+      - products
+      - trade
