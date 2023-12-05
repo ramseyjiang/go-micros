@@ -17,13 +17,18 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
+const (
+	productServicePort = ":9011"
+	redisAddress       = "localhost:6379"
+)
+
 func main() {
 	flag.Parse()
 
 	// Initialize a Redis client
 	redisAddr := os.Getenv("REDIS_ADDR") // For example: "localhost:6379"
 	if redisAddr == "" {
-		redisAddr = "localhost:6379" // Default address
+		redisAddr = redisAddress
 	}
 	redisClient := redis.NewClient(&redis.Options{
 		Addr:     redisAddr,
@@ -43,7 +48,7 @@ func main() {
 	productSvc := services.NewProductService(productRepo)
 
 	// Set up gRPC server
-	lis, err := net.Listen("tcp", ":9011") // Port should be configurable
+	lis, err := net.Listen("tcp", productServicePort) // Port should be configurable
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 	}
@@ -68,7 +73,7 @@ func main() {
 		log.Println("Server has been stopped.")
 	}()
 
-	log.Println("Starting server on port :9011")
+	log.Println("Starting server on port " + productServicePort)
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("Failed to serve: %v", err)
 	}

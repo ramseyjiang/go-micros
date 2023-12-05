@@ -16,7 +16,7 @@ import (
 
 const (
 	tradeServicePort      = ":9012"
-	productServiceAddress = "localhost:9011" // Replace with actual address of ProductService
+	productServiceAddress = "localhost:9011"
 )
 
 func main() {
@@ -34,7 +34,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 	}
-	log.Printf("Listening on %s", tradeServicePort)
 
 	// Create a new gRPC server instance
 	grpcServer := grpc.NewServer()
@@ -54,6 +53,7 @@ func main() {
 		log.Println("Shutting down gRPC server...")
 		grpcServer.GracefulStop()
 	}()
+	log.Println("Starting server on port ", tradeServicePort)
 
 	// Start the server
 	if err := grpcServer.Serve(listener); err != nil {

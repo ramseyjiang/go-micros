@@ -11,6 +11,12 @@ import (
 	"google.golang.org/grpc"
 )
 
+const (
+	salesPort             = ":8080"
+	productServiceAddress = "localhost:9011"
+	tradeServiceAddress   = "localhost:9012"
+)
+
 func main() {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
@@ -18,17 +24,18 @@ func main() {
 
 	mux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()} // Use WithInsecure for non-TLS connections
-	err := products.RegisterProductServiceHandlerFromEndpoint(ctx, mux, "localhost:9011", opts)
+	err := products.RegisterProductServiceHandlerFromEndpoint(ctx, mux, productServiceAddress, opts)
 	if err != nil {
-		log.Fatalf("Failed to register gRPC gateway: %v", err)
+		log.Fatalf("Failed to register product gRPC gateway: %v", err)
 	}
 
-	err = trade.RegisterSalesServiceHandlerFromEndpoint(ctx, mux, "localhost:9012", opts)
+	err = trade.RegisterSalesServiceHandlerFromEndpoint(ctx, mux, tradeServiceAddress, opts)
 	if err != nil {
-		log.Fatalf("Failed to register gRPC gateway: %v", err)
+		log.Fatalf("Failed to register trade gRPC gateway: %v", err)
 	}
 
-	if err := http.ListenAndServe(":8080", mux); err != nil {
+	log.Println("Starting serve on port ", salesPort)
+	if err := http.ListenAndServe(salesPort, mux); err != nil {
 		log.Fatalf("Failed to serve gRPC-Gateway: %v", err)
 	}
 }
