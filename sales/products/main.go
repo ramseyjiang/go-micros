@@ -19,7 +19,7 @@ import (
 
 const (
 	productServicePort = ":9011"
-	redisAddress       = "localhost:6379"
+	redisAddress       = ":6379"
 )
 
 func main() {

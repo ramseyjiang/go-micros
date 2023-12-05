@@ -16,7 +16,7 @@ import (
 
 const (
 	tradeServicePort      = ":9012"
-	productServiceAddress = "localhost:9011"
+	productServiceAddress = ":9011"
 )
 
 func main() {

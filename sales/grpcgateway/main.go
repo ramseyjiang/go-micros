@@ -13,8 +13,8 @@ import (
 
 const (
 	salesPort             = ":8080"
-	productServiceAddress = "localhost:9011"
-	tradeServiceAddress   = "localhost:9012"
+	productServiceAddress = ":9011"
+	tradeServiceAddress   = ":9012"
 )
 
 func main() {
