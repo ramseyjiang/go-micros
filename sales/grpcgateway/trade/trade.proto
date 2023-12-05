@@ -5,6 +5,7 @@ package trade;
 option go_package = "/trade";
 
 import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
 
 service SalesService {
   rpc CreateSale(CreateSaleRequest) returns (CreateSaleResponse) {
@@ -17,19 +18,19 @@ service SalesService {
 
 // The request message for creating a sale.
 message CreateSaleRequest {
-  repeated LineItem lineItems = 1;
-  float discountAmount = 2; // Flat amount discount.
-}
-
-// The response message for a sale creation.
-message CreateSaleResponse {
-  repeated LineItem lineItems = 1;
-  float totalPrice = 2; // Total price after discount.
+  repeated LineItem line_items = 1;
+  float discountAmount = 2; // Flat discount amount on the total sale
 }
 
 // Represents an item in a sale.
 message LineItem {
-  string productId = 1; // The product identifier.
-  int32 quantity = 2;   // The quantity of the product.
-  float totalPrice = 3; // Total price for this line item.
+  string product_id = 1;
+  int32 quantity = 2;
+}
+
+// The response message for a sale creation.
+message CreateSaleResponse {
+  string sale_id = 1;
+  repeated LineItem line_items = 2;
+  google.protobuf.FloatValue total_price = 3;
 }
