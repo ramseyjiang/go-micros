@@ -6,7 +6,8 @@ import (
 	"net/http"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	"github.com/ramseyjiang/go-micros/sales/grpc-gateway/products" // Import the generated reverse-proxy package
+	"github.com/ramseyjiang/go-micros/sales/grpc-gateway/products"
+	"github.com/ramseyjiang/go-micros/sales/grpc-gateway/trade"
 	"google.golang.org/grpc"
 )
 
@@ -18,6 +19,11 @@ func main() {
 	mux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()} // Use WithInsecure for non-TLS connections
 	err := products.RegisterProductServiceHandlerFromEndpoint(ctx, mux, "localhost:9011", opts)
+	if err != nil {
+		log.Fatalf("Failed to register gRPC gateway: %v", err)
+	}
+
+	err = trade.RegisterSalesServiceHandlerFromEndpoint(ctx, mux, "localhost:9012", opts)
 	if err != nil {
 		log.Fatalf("Failed to register gRPC gateway: %v", err)
 	}
