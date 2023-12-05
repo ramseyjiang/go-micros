@@ -10,9 +10,9 @@ import (
 	"syscall"
 
 	"github.com/go-redis/redis/v8"
+	"github.com/ramseyjiang/go-micros/sales/products/internal/repos"
+	"github.com/ramseyjiang/go-micros/sales/products/internal/services"
 	pb "github.com/ramseyjiang/go-micros/sales/products/proto"
-	"github.com/ramseyjiang/go-micros/sales/products/repos"
-	"github.com/ramseyjiang/go-micros/sales/products/services"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -40,7 +40,7 @@ func main() {
 	productRepo := repos.NewProductRepository(redisClient)
 
 	// Initialize the product service with the repository
-	productSvc := service.NewProductService(productRepo)
+	productSvc := services.NewProductService(productRepo)
 
 	// Set up gRPC server
 	lis, err := net.Listen("tcp", ":9011") // Port should be configurable

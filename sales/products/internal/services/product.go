@@ -1,9 +1,9 @@
-package service
+package services
 
 import (
 	"context"
+	"github.com/ramseyjiang/go-micros/sales/products/internal/repos"
 	pb "github.com/ramseyjiang/go-micros/sales/products/proto"
-	"github.com/ramseyjiang/go-micros/sales/products/repos"
 )
 
 type ProductService struct {
