@@ -6,6 +6,7 @@ import (
 
 	"github.com/ramseyjiang/go-micros/sales/trade/internal/repos"
 	tradepb "github.com/ramseyjiang/go-micros/sales/trade/proto"
+	"google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 type SalesService struct {
@@ -36,9 +37,19 @@ func (s *SalesService) CreateSale(ctx context.Context, req *tradepb.CreateSaleRe
 		totalSalePrice += lineTotal
 	}
 
+	// Apply flat discount if applicable
+	if req.DiscountAmount > 0 {
+		totalSalePrice -= req.DiscountAmount
+	}
+
+	// Ensure total price does not go negative
+	if totalSalePrice < 0 {
+		totalSalePrice = 0
+	}
+
 	// Create the sale response with the total sale price and line items
 	return &tradepb.CreateSaleResponse{
-		TotalPrice: totalSalePrice,
+		TotalPrice: &wrapperspb.FloatValue{Value: totalSalePrice},
 		LineItems:  req.LineItems,
 	}, nil
 }
