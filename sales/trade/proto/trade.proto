@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package trade;
+
+option go_package = "github.com/ramseyjiang/go-micros/sales/trade;trade";
+
+service SalesService {
+  rpc CreateSale(CreateSaleRequest) returns (CreateSaleResponse) {}
+  // Add other RPCs for discounts, etc.
+}
+
+message CreateSaleRequest {
+  repeated LineItem line_items = 1;
+}
+
+message LineItem {
+  string product_id = 1;
+  int32 quantity = 2;
+}
+
+message CreateSaleResponse {
+  string sale_id = 1;
+  repeated LineItem line_items = 2;
+  float total_price = 3;
+}
