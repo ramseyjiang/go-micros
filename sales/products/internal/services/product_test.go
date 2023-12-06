@@ -70,24 +70,41 @@ func TestGetProducts(t *testing.T) {
 
 func TestCreateProduct(t *testing.T) {
 	ctx := context.Background()
-	newProduct := &pb.Product{Name: "New Product", Price: "20.99"}
 
 	tests := []struct {
 		name     string
 		mockRepo *mockProductRepository
-		product  *pb.Product
+		req      *pb.CreateProductRequest
 		wantErr  bool
 	}{
 		{
 			name:     "Success",
 			mockRepo: &mockProductRepository{},
-			product:  newProduct,
+			req:      &pb.CreateProductRequest{Name: "New Product", Price: "20.99"},
 			wantErr:  false,
 		},
 		{
 			name:     "RepoError",
 			mockRepo: &mockProductRepository{err: errors.New("error")},
-			product:  newProduct,
+			req:      &pb.CreateProductRequest{Name: "New Product", Price: "20.99"},
+			wantErr:  true,
+		},
+		{
+			name:     "EmptyProductName",
+			mockRepo: &mockProductRepository{},
+			req:      &pb.CreateProductRequest{Name: "", Price: "20.99"},
+			wantErr:  true,
+		},
+		{
+			name:     "InvalidProductPrice",
+			mockRepo: &mockProductRepository{},
+			req:      &pb.CreateProductRequest{Name: "Valid Name", Price: "0"},
+			wantErr:  true,
+		},
+		{
+			name:     "NonNumericPrice",
+			mockRepo: &mockProductRepository{},
+			req:      &pb.CreateProductRequest{Name: "Valid Name", Price: "abc"},
 			wantErr:  true,
 		},
 	}
@@ -95,7 +112,7 @@ func TestCreateProduct(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			s := NewProductService(tt.mockRepo)
-			_, err := s.CreateProduct(ctx, &pb.CreateProductRequest{Name: tt.product.Name, Price: tt.product.Price})
+			_, err := s.CreateProduct(ctx, tt.req)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("ProductService.CreateProduct() error = %v, wantErr %v", err, tt.wantErr)
 			}
