@@ -18,17 +18,19 @@ import (
 )
 
 const (
-	productServicePort = ":9011"
-	localRedisAddress  = "localhost:6379" // listen on localhost:6379 port, not listen all :6379
+	productServiceEnvVar      = "PRODUCT_SERVICE_ADDR"
+	redisEnvVar               = "REDIS_ADDR"
+	defaultProductServicePort = ":9011"
+	defaultRedisPort          = "localhost:6379" // listen on localhost:6379 port, not listen all :6379
 )
 
 func main() {
 	flag.Parse()
 
 	// Initialize a Redis client
-	redisAddr := os.Getenv("REDIS_ADDR") // For example: "localhost:6379"
+	redisAddr := os.Getenv(redisEnvVar) // For example: "localhost:6379"
 	if redisAddr == "" {
-		redisAddr = localRedisAddress
+		redisAddr = defaultRedisPort
 	}
 	redisClient := redis.NewClient(&redis.Options{
 		Addr:     redisAddr,
@@ -47,6 +49,10 @@ func main() {
 	// Initialize the product service with the repository
 	productSvc := services.NewProductService(productRepo)
 
+	productServicePort := os.Getenv(productServiceEnvVar)
+	if productServicePort == "" {
+		productServicePort = defaultProductServicePort
+	}
 	// Set up gRPC server
 	lis, err := net.Listen("tcp", productServicePort) // Port should be configurable
 	if err != nil {

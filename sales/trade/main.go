@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"net"
 	"os"
@@ -15,13 +16,27 @@ import (
 )
 
 const (
-	tradeServicePort      = ":9012"
-	productServiceAddress = ":9011"
+	defaultTradeServicePort   = ":9012"
+	defaultProductServicePort = ":9011"
+	productServiceEnvVar      = "PRODUCT_SERVICE_ADDR"
+	tradeServiceEnvVar        = "TRADE_SERVICE_ADDR"
 )
 
 func main() {
+	flag.Parse()
+
+	productServicePort := os.Getenv(productServiceEnvVar)
+	if productServicePort == "" {
+		productServicePort = defaultProductServicePort
+	}
+
+	tradeServicePort := os.Getenv(tradeServiceEnvVar)
+	if tradeServicePort == "" {
+		tradeServicePort = defaultTradeServicePort
+	}
+
 	// Set up a connection to the ProductService
-	tradeRepo, err := repos.NewTradeRepository(productServiceAddress)
+	tradeRepo, err := repos.NewTradeRepository(productServicePort)
 	if err != nil {
 		log.Fatalf("Failed to initialize trade repository: %v", err)
 	}
@@ -56,7 +71,7 @@ func main() {
 	log.Println("Starting server on port ", tradeServicePort)
 
 	// Start the server
-	if err := grpcServer.Serve(listener); err != nil {
+	if err = grpcServer.Serve(listener); err != nil {
 		log.Fatalf("Failed to serve: %v", err)
 	}
 }
