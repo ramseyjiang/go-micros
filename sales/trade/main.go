@@ -16,8 +16,8 @@ import (
 )
 
 const (
-	defaultTradeServicePort   = ":9012"
 	defaultProductServicePort = ":9011"
+	defaultTradeServicePort   = ":9012"
 	productServiceEnvVar      = "PRODUCT_SERVICE_ADDR"
 	tradeServiceEnvVar        = "TRADE_SERVICE_ADDR"
 )

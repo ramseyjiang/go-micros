@@ -15,6 +15,7 @@ services:
     ports:
       - "9012:9012"
     environment:
+      - PRODUCT_SERVICE_ADDR=products:9011
       - REDIS_ADDR=redis:6379
     depends_on:
       - redis
