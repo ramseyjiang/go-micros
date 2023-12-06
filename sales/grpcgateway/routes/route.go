@@ -2,15 +2,14 @@ package routes
 
 import (
 	"context"
-	"log"
-	"net/http"
-	"os"
-
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	"github.com/ramseyjiang/go-micros/sales/grpc-gateway/middleware"
+	"github.com/ramseyjiang/go-micros/sales/grpc-gateway/middleware/ratelimit"
 	"github.com/ramseyjiang/go-micros/sales/grpc-gateway/protos/products"
 	"github.com/ramseyjiang/go-micros/sales/grpc-gateway/protos/trade"
 	"google.golang.org/grpc"
+	"log"
+	"net/http"
+	"os"
 )
 
 const (
@@ -41,6 +40,9 @@ func SetupRoutes(ctx context.Context) http.Handler {
 		log.Fatalf("Failed to register trade gRPC gateway: %v", err)
 	}
 
+	// Initialize the BucketStore
+	bucketStore := ratelimit.NewBucketStore(ratelimit.DefaultRate, ratelimit.DefaultWindow) // Default 10 requests per minute
+
 	// Apply the rate limiting middleware
-	return middleware.RateLimit(mux)
+	return ratelimit.Impl(bucketStore)(mux)
 }
