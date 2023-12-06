@@ -1,31 +1,45 @@
 version: '3.8'
+
 services:
   products:
-    build:
-      context: ./products  # Path to the directory containing the Dockerfile for products
+    build: ./products
     ports:
-      - "9011:9011"  # Adjust the ports as needed for your products service
+      - "9011:9011"
+    environment:
+      - REDIS_ADDR=redis:6379
     depends_on:
       - redis
 
   trade:
-    build:
-      context: ./trade  # Path to the directory containing the Dockerfile for trade
+    build: ./trade
     ports:
-      - "9012:9012"  # Adjust the ports as needed for your trade service
+      - "9012:9012"
+    environment:
+      - REDIS_ADDR=redis:6379
     depends_on:
       - redis
 
-  redis:
-    image: redis
-    ports:
-      - "26379:26379"
-
   grpcgateway:
-    build:
-      context: ./grpcgateway  # Path to the directory containing the Dockerfile for the gateway
+    build: ./grpcgateway
     ports:
-      - "8080:8080"  # Adjust the ports as needed for your gRPC Gateway
+      - "8080:8080"
+    environment:
+      - PRODUCT_SERVICE_ADDR=products:9011
+      - TRADE_SERVICE_ADDR=trade:9012
     depends_on:
       - products
       - trade
+
+  redis:
+    image: redis:alpine
+    command: redis-server --port 6379
+    ports:
+      - "26379:6379" # Expose Redis on port 26379 on the host and connect to 6379 in the container
+    volumes:
+      - redis_data:/data # Persist Redis data on named volume
+
+volumes:
+  redis_data: # Define the volume to persist Redis data
+
+networks:
+  default: # Default network configuration
