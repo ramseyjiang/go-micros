@@ -7,4 +7,4 @@
 protoc --go_out=paths=source_relative:. \
     --go-grpc_out=paths=source_relative:. \
     --grpc-gateway_out=paths=source_relative:. \
-    ./products/product.proto ./trade/trade.proto
+    ./protos/products/product.proto ./protos/trade/trade.proto

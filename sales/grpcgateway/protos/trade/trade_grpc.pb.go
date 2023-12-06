@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             v4.25.1
-// source: trade/trade.proto
+// source: protos/trade/trade.proto
 
 package trade
 
@@ -105,5 +105,5 @@ var SalesService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "trade/trade.proto",
+	Metadata: "protos/trade/trade.proto",
 }

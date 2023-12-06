@@ -4,7 +4,7 @@ package trade;
 
 option go_package = "/trade";
 
-import "google/api/annotations.proto";
+import "protos/google/api/annotations.proto";
 import "google/protobuf/wrappers.proto";
 
 service SalesService {

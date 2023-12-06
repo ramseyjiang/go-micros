@@ -2,14 +2,14 @@ package routes
 
 import (
 	"context"
+	"github.com/ramseyjiang/go-micros/sales/grpc-gateway/protos/products"
+	"github.com/ramseyjiang/go-micros/sales/grpc-gateway/protos/trade"
 	"log"
 	"net/http"
 	"os"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/ramseyjiang/go-micros/sales/grpc-gateway/middleware"
-	"github.com/ramseyjiang/go-micros/sales/grpc-gateway/products"
-	"github.com/ramseyjiang/go-micros/sales/grpc-gateway/trade"
 	"google.golang.org/grpc"
 )
 
