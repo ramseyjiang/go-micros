@@ -18,8 +18,8 @@ import (
 )
 
 const (
-	productServicePort = "localhost:9011"
-	redisAddress       = "localhost:26379" // localhost:6379, docker use 26379
+	productServicePort = ":9011"
+	localRedisAddress  = "localhost:6379" // listen on localhost:6379 port, not listen all :6379
 )
 
 func main() {
@@ -28,7 +28,7 @@ func main() {
 	// Initialize a Redis client
 	redisAddr := os.Getenv("REDIS_ADDR") // For example: "localhost:6379"
 	if redisAddr == "" {
-		redisAddr = redisAddress
+		redisAddr = localRedisAddress
 	}
 	redisClient := redis.NewClient(&redis.Options{
 		Addr:     redisAddr,
