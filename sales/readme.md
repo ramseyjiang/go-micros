@@ -51,7 +51,7 @@ curl -X POST http://localhost:8080/v1/sales -d '{"lineItems": [{"productId": "1"
 
 
 Codes structure:
-
+```
 sales/
 ├── grpcgateway/
 │   ├── middleware/
@@ -118,6 +118,7 @@ sales/
 │
 ├── docker-compose.yml
 └── readme.md
+```
 
 - `sales/` is the root directory containing all your microservices.
 - `grpcgateway/` contains the API gateway service, its middleware, and related files.
