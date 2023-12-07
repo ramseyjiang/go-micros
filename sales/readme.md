@@ -1,6 +1,7 @@
-grpcgateway: A basic REST gateway forwarding requests onto services using grpc.
-products: A very bare-bones product service
-trade: A very bare-bones trade service
+
+- `grpcgateway`: A basic REST gateway forwarding requests onto services using grpc.
+- `products`: A very bare-bones product service
+- `trade`: A very bare-bones trade service
 
 If you want to run the micro services directly, please make sure your docker start.
 And then, please run the docker-compose.yml.
