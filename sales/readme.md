@@ -1,5 +1,5 @@
 
-- `grpcgateway`: A basic REST gateway forwarding requests onto services using grpc.
+- `grpcgateway`: A basic REST gateway forwarding requests onto services using grpc with `rate limiting`.
 - `products`: A very bare-bones product service
 - `trade`: A very bare-bones trade service
 
