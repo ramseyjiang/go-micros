@@ -1,7 +1,6 @@
 package ratelimit
 
 import (
-	"fmt"
 	"sync"
 	"time"
 )
@@ -26,10 +25,17 @@ type BucketStore struct {
 // The purpose of this store is to allow for local rate limiting backoff,
 // before the datastore is hammered during DDoS attacks.
 func NewBucketStore(rate int, window time.Duration) *BucketStore {
+	if rate <= 0 {
+		rate = DefaultRate
+	}
+	if window <= 0 {
+		window = DefaultWindow
+	}
+
 	bs := &BucketStore{
 		buckets:   map[string]chan token{},
 		bucketLen: rate,
-		interval:  window,
+		interval:  window / time.Duration(rate),
 	}
 	bs.startTicker()
 	return bs
@@ -51,46 +57,6 @@ func (s *BucketStore) startTicker() {
 			s.Unlock()
 		}
 	}()
-}
-
-// InitRate initialises the rate of the Token Bucket store
-func (s *BucketStore) InitRate(rate int, window time.Duration) {
-	if rate == 0 {
-		rate = DefaultRate
-	}
-	if window.Nanoseconds() == 0 {
-		window = DefaultRate * time.Minute
-	}
-	s.bucketLen = rate
-	s.Reset = time.Now()
-	s.interval = time.Duration(int(window) / rate)
-
-	go func() {
-		interval := time.Duration(int(window) / rate)
-		tick := time.NewTicker(interval)
-		for t := range tick.C {
-			s.Lock()
-			s.Reset = t.Add(interval)
-			for key, bucket := range s.buckets {
-				select {
-				case <-bucket:
-				default:
-					delete(s.buckets, key)
-				}
-			}
-			s.Unlock()
-		}
-	}()
-}
-
-// GetRate gets the Rate (the bucketLen)
-func (s *BucketStore) GetRate() string {
-	return fmt.Sprintf("%v", s.bucketLen)
-}
-
-// GetInterval gets the interval
-func (s *BucketStore) GetInterval() string {
-	return fmt.Sprintf("%v", s.interval)
 }
 
 // Take implements TokenBucketStore interface.
