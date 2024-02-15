@@ -127,3 +127,4 @@ sales/
 - Each service (grpcgateway, products, and trade) has a Dockerfile and a gen-proto.sh script for building the Docker image and generating protobuf files respectively.
 - The docker-compose.yml file is in the root sales/ directory, which orchestrates the containers for all the services.
 readme.md is also in the root sales/ directory, providing documentation for the entire project.
+- `docker-compose logs -f` is used to check docker logs
