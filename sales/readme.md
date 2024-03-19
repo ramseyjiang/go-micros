@@ -5,7 +5,7 @@
 
 ### Getting Started
 
-If you want to run the micro services directly, please make sure your docker start.
+If you want to run the microservices directly, please make sure your docker start.
 And then, please run the docker-compose.yml.
 After all services run, you can test them using the below curl.
 

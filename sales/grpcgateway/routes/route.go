@@ -23,7 +23,8 @@ func SetupRoutes(ctx context.Context) http.Handler {
 	mux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 
-	// Register gRPC handlers
+	// ---------   Register gRPC handlers start   ---------------
+	// Register product service handler
 	productServiceAddress := os.Getenv(productServiceEnvVar)
 	if productServiceAddress == "" {
 		productServiceAddress = defaultProductService
@@ -32,6 +33,7 @@ func SetupRoutes(ctx context.Context) http.Handler {
 		log.Fatalf("Failed to register product gRPC gateway: %v", err)
 	}
 
+	// Register trade service handler
 	tradeServiceAddress := os.Getenv(tradeServiceEnvVar)
 	if tradeServiceAddress == "" {
 		tradeServiceAddress = defaultTradeService
@@ -39,6 +41,7 @@ func SetupRoutes(ctx context.Context) http.Handler {
 	if err := trade.RegisterSalesServiceHandlerFromEndpoint(ctx, mux, tradeServiceAddress, opts); err != nil {
 		log.Fatalf("Failed to register trade gRPC gateway: %v", err)
 	}
+	// ---------   Register gRPC handlers end   ---------------
 
 	// Initialize the BucketStore
 	bucketStore := ratelimit.NewBucketStore(ratelimit.DefaultRate, ratelimit.DefaultWindow) // Default 10 requests per minute
